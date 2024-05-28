@@ -16,8 +16,8 @@ if [ $selection = "Add Password" ]; then
     read password
 
     echo サービス名：$service_name >> password.txt
-    echo $service_nameのユーザー名：$user_name >> password.txt
-    echo $service_nameのパスワード：$password >> password.txt
+    echo $service_name｜ユーザー名：$user_name >> password.txt
+    echo $service_name｜パスワード：$password >> password.txt
     echo "------------------------" >> password.txt
 
     echo Thank you
@@ -25,6 +25,6 @@ elif [ $selection = "Get Password" ] ; then
     echo サービス名を入力してください：
     read search_name
     grep "サービス名：$search_name" password.txt
-    grep "$search_nameのユーザー名：" password.txt
-    grep "$search_nameのパスワード：" password.txt
+    grep "$search_name｜ユーザー名：" password.txt | cut -f 2 -d "｜"
+    grep "$search_name｜パスワード：" password.txt | cut -f 2 -d "｜"
 fi
