@@ -1,11 +1,17 @@
 #!/bin/zsh
 
 echo "パスワードマネージャーへようこそ！"
-echo "次の選択肢から入力してください(Add Password/Get Password/Exit):"
 
-read selection
+number=1
+while [ $number -eq 1 ]; 
 
-if [ $selection = "Add Password" ]; then
+do
+
+ echo "次の選択肢から入力してください(Add Password/Get Password/Exit):"
+
+ read selection
+
+  if [ $selection = "Add Password" ]; then
     echo "サービス名を入力してください！"
     read service_name
 
@@ -21,7 +27,7 @@ if [ $selection = "Add Password" ]; then
     echo "------------------------" >> password.txt
 
     echo Thank you
-elif [ $selection = "Get Password" ] ; then
+ elif [ $selection = "Get Password" ] ; then
     echo サービス名を入力してください：
     read search_name
     search_name_num=${#search_name}
@@ -29,4 +35,13 @@ elif [ $selection = "Get Password" ] ; then
     grep "サービス名：$search_name" password.txt
     grep "$search_nameのユーザー名：" password.txt | cut -c ${search_name_num}-
     grep "$search_nameのパスワード：" password.txt | cut -c ${search_name_num}-
-fi
+
+ elif [ $selection = "Exit" ] ; then
+    number=$((number+1))
+
+ fi    
+
+done
+
+
+echo "パスワードマネージャーを終了します"
