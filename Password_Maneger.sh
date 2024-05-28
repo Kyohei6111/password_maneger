@@ -1,22 +1,26 @@
 #!/bin/zsh
 
 echo "パスワードマネージャーへようこそ！"
+echo "次の選択肢から入力してください(Add Password/Get Password/Exit):"
 
-echo サービス名を入力してください！
-read service_name
+read selection
 
-echo ユーザー名を入力してください！
-read user_name
+if [ $selection = "Add Password" ]; then
+    echo "サービス名を入力してください！"
+    read service_name
 
-echo パスワードを入力してください！
-read password
+    echo "ユーザー名を入力してください！"
+    read user_name
 
-echo $service_name >> password.txt
-echo $user_name >> password.txt
-echo $password >> password.txt
-echo "------------------------" >> password.txt
+    echo "パスワードを入力してください！"
+    read password
+
+    echo $service_name >> password.txt
+    echo $user_name >> password.txt
+    echo $password >> password.txt
+    echo "------------------------" >> password.txt
 
 
-echo Thank you!
-
-
+    echo Thank you
+else
+fi
