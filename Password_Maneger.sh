@@ -15,11 +15,10 @@ if [ $selection = "Add Password" ]; then
     echo "パスワードを入力してください！"
     read password
 
-    echo $service_name >> password.txt
-    echo $user_name >> password.txt
-    echo $password >> password.txt
+    echo サービス名：$service_name >> password.txt
+    echo $service_nameのユーザー名：$user_name >> password.txt
+    echo $service_nameのパスワード：$password >> password.txt
     echo "------------------------" >> password.txt
-
 
     echo Thank you
 else
