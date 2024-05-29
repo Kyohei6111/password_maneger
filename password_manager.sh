@@ -12,8 +12,22 @@ do
  read selection
 
  if [ $selection = "Add Password" ]; then
+   service_name=""
+   user_name=""
+   password=""
+
+   while [ -z $service_name ];
+   do
     echo "サービス名を入力してください！"
     read service_name
+    if [ -z $service_name ]; then
+      echo サービス名が空欄です。中止する場合はExitを入れてください。
+    elif [ $service_name = "Exit" ]; then
+      echo "Thank you!"
+      exit
+    fi
+   done  
+
 
     echo "ユーザー名を入力してください！"
     read user_name
