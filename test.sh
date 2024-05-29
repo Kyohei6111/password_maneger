@@ -1,12 +1,8 @@
 #!/bin/zsh
 
-a=1
-a=""
-echo $a
-
-if [ -z $a ]; then
-    echo 成功
-else
-    echo 失敗
+read search_name
+search_service_num=$(grep "サービス名："$search_name password.txt | wc -l)
+echo $search_service_num
+if [ $search_service_num -eq 1 ]; then
+echo 成功！
 fi
-
