@@ -3,6 +3,7 @@
 echo "パスワードマネージャーへようこそ！"
 
 number=1
+#Exitが入力されるまで処理が続くためにwhile構文を挿入
 while [ $number -eq 1 ]; 
 
 do
@@ -10,27 +11,43 @@ do
  echo "次の選択肢から入力してください(Add Password/Get Password/Exit):"
 
  read selection
-
+ #Add Passwordがにゅうちょくされたときの処理
  if [ $selection = "Add Password" ]; then
+ #念の為変数をリセット
    service_name=""
    user_name=""
    password=""
 
+#ここからサービス名の入力・空欄の場合はエラーが出るように設定
    while [ -z $service_name ];
    do
     echo "サービス名を入力してください！"
     read service_name
+    #入力が空欄の場合
     if [ -z $service_name ]; then
       echo サービス名が空欄です。中止する場合はExitを入れてください。
+   #Exitが入力されたらプログラムから離脱
     elif [ $service_name = "Exit" ]; then
       echo "Thank you!"
       exit
     fi
-   done  
+   done
 
-
-    echo "ユーザー名を入力してください！"
-    read user_name
+   #正しく入力された場合はユーザー名の入力に進む、空欄の場合はループ処理
+   while [ -z $user_name ]
+   do
+      echo "ユーザー名を入力してください！"
+      read user_name
+         #入力が空欄の場合
+      if [ -z $user_name ]; then
+         echo サービス名が空欄です。中止する場合はExitを入れてください。
+       #Exitが入力されたらプログラムから離脱
+      elif [ $user_name = "Exit" ]; then
+         echo "Thank you!"
+         exit
+      fi
+   done
+    
 
     echo "パスワードを入力してください！"
     read password
