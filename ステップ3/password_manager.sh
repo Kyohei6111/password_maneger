@@ -8,10 +8,15 @@ echo "パスワードマネージャーへようこそ！"
 number=1
 
 #password.pngがない時はpassword.pngを作成
-passwoed_gpg_file_nmu=$(ls | grep password.txt.gpg | wc -l)
-passwoed_file_nmu=$(ls | grep password.txt | wc -l)
+passwoed_gpg_file_nmu=$(ls | grep -x password.txt.gpg | wc -l)
+passwoed_file_nmu=$(ls | grep -x password.txt | wc -l)
 if [ $passwoed_gpg_file_nmu -eq 0 ] && [ $passwoed_file_nmu -eq 0 ]; then
    echo パスワードマネージャー >> password.txt
+   gpg --encrypt --recipient $pass_email password.txt
+   #暗号化する前のファイルは削除
+   rm password.txt
+elif [ $passwoed_gpg_file_nmu -eq 0 ] && [ $passwoed_file_nmu -ne 0 ]; then
+   #password.txtを暗号化
    gpg --encrypt --recipient $pass_email password.txt
    #暗号化する前のファイルは削除
    rm password.txt
