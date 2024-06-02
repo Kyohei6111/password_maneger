@@ -8,12 +8,12 @@ while [ $number -eq 1 ];
 
 do
 
- echo "次の選択肢から入力してください(Add Password/Get Password/Exit):"
+   echo "次の選択肢から入力してください(Add Password/Get Password/Exit):"
 
- read selection
- #Add Passwordが入力されたときの処理
- if [ $selection = "Add Password" ]; then
-    #変数をリセット
+   read selection
+   #Add Passwordが入力されたときの処理
+   if [ $selection = "Add Password" ]; then
+      #変数をリセット
       service_name=""
       user_name=""
       password=""
@@ -40,12 +40,12 @@ do
          read user_name
          #入力が空欄の場合
          if [ -z $user_name ]; then
-          echo サービス名が空欄です。中止する場合はExitを入れてください。
+            echo サービス名が空欄です。中止する場合はExitを入れてください。
             #Exitが入力されたらプログラムから離脱
          elif [ $user_name = "Exit" ]; then
-          echo "Thank you!"
-          exit
-          else
+            echo "Thank you!"
+            exit
+         else
             #「サービス名：」という文字列があると表示がうまくいかない可能性があるため…
             case "$user_name" in
                #サービス名という文字列が含まれている場合はservice_nameを空欄にしてループを継続する
@@ -68,20 +68,33 @@ do
          if [ -z $password ]; then
             echo  サービス名が空欄です。中止する場合はExitを入れてください。
             #Exitが入力されたらプログラムから離脱
-            elif [ $password = "Exit" ]; then
+         elif [ $password = "Exit" ]; then
             echo "Thank you!"
             exit
+         else
+            #「サービス名：」という文字列があると表示がうまくいかない可能性があるため…
+            case "$password" in
+               #サービス名という文字列が含まれている場合はservice_nameを空欄にしてループを継続する
+               *サービス名：*)
+                  echo "「サービス名：」という文字列は使えません。他の文字列にしてください"
+                  password=""
+                  ;;
+               #サービス名が入っていない場合はservice_nameをそのままにしてループから抜ける
+               *)
+                  ;;
+            esac
          fi
       done
+
       #サービス名、ユーザー名、パスワードをpassword.txtに追加
       echo サービス名：$service_name >> password.txt
       echo ユーザー名：$user_name >> password.txt
       echo パスワード：$password >> password.txt
       echo パスワードの追加は成功しました。
 
-   #Get Passwordが入力された場合、
- elif [ $selection = "Get Password" ] ; then
-    #まず変数をリセット
+      #Get Passwordが入力された場合、
+   elif [ $selection = "Get Password" ] ; then
+      #まず変数をリセット
       search_name=""
       search_service_num=""
       #serch_nameが空欄の間は繰り返す！
@@ -107,13 +120,13 @@ do
          fi
       done
 
-    #"Exit"が入力された場合はnumberに1を足してループから抜ける
- elif [ $selection = "Exit" ] ; then
-    number=$((number+1))
-    #Add Password/Get Password/Exit以外が入力された場合
- else
-    echo "入力が間違えています。Add Password/Get Password/Exit から入力していください"
- fi
+      #"Exit"が入力された場合はnumberに1を足してループから抜ける
+   elif [ $selection = "Exit" ] ; then
+      number=$((number+1))
+      #Add Password/Get Password/Exit以外が入力された場合
+   else
+      echo "入力が間違えています。Add Password/Get Password/Exit から入力していください"
+   fi
 
 done
 
