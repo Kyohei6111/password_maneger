@@ -1,9 +1,16 @@
 #!/bin/zsh
 
-#-----example@email.comをGPGのキーに紐づいているメールアドレスに置き換えてくださいgit----------
+#-----example@email.comをGPGのキーに紐づいているメールアドレスに置き換えてください----------
 pass_email=example@email.com
 
 echo "パスワードマネージャーへようこそ！"
+
+#GPGのキーに紐づいているメールアドレスに紐づいていない場合、処理を終了します。
+if [ $pass_email = "example@email.com" ]; then
+   echo "このファイルの4列目の$pass_email を「GPGのキー生成時に作成したメールアドレス」に書き換えてから使い始めてください。"
+   echo "スクリプトを終了します。"
+   exit
+fi
 
 number=1
 
