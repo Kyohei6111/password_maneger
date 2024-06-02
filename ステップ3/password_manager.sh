@@ -14,7 +14,7 @@ fi
 
 number=1
 
-#対象のディレクトリにpassword.txt、password.txt.gpgの有無を確認、password.txt.gpgだけの状態にする
+#対象のディレクトリにpassword.txt、password.txt.gpgがあるかを確認、password.txt.gpgだけの状態にする
 passwoed_gpg_file_nmu=$(ls | grep -x password.txt.gpg | wc -l)
 passwoed_file_nmu=$(ls | grep -x password.txt | wc -l)
 #password.png、password.txtどちらもない場合はpassword.txtを作成して暗号化
