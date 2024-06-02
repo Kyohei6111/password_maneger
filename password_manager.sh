@@ -4,7 +4,7 @@ echo "パスワードマネージャーへようこそ！"
 
 number=1
 #Exitが入力されるまで処理が続くためにwhile構文を挿入
-while [ $number -eq 1 ]; 
+while [ $number -eq 1 ];
 
 do
 
@@ -45,9 +45,21 @@ do
          elif [ $user_name = "Exit" ]; then
           echo "Thank you!"
           exit
+          else
+            #「サービス名：」という文字列があると表示がうまくいかない可能性があるため…
+            case "$user_name" in
+               #サービス名という文字列が含まれている場合はservice_nameを空欄にしてループを継続する
+               *サービス名：*)
+                  echo "「サービス名：」という文字列は使えません。他の文字列にしてください"
+                  user_name=""
+                  ;;
+               #サービス名が入っていない場合はservice_nameをそのままにしてループから抜ける
+               *)
+                  ;;
+            esac
          fi
       done
-    
+
       #正しく入力された場合はユーザー名の入力に進む、空欄の場合はループ処理
       while [ -z $password ]
       do
@@ -101,7 +113,7 @@ do
     #Add Password/Get Password/Exit以外が入力された場合
  else
     echo "入力が間違えています。Add Password/Get Password/Exit から入力していください"
- fi    
+ fi
 
 done
 
