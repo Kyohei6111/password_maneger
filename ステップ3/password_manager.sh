@@ -1,11 +1,22 @@
 #!/bin/zsh
 
-#-----example@email.comをGPGのキーに紐づいているメールアドレスに置き換えてください----------
-pass_email=example@email.com
+#-----example@email.comをGPGのキーに紐づいているメールアドレスに置き換えてくださいgit----------
+pass_email=danishi1121@gmail.com
 
 echo "パスワードマネージャーへようこそ！"
 
 number=1
+
+#password.pngがない時はpassword.pngを作成
+passwoed_gpg_file_nmu=$(ls | grep password.txt.gpg | wc -l)
+passwoed_file_nmu=$(ls | grep password.txt | wc -l)
+if [ $passwoed_gpg_file_nmu -eq 0 ] && [ $passwoed_file_nmu -eq 0 ]; then
+   echo パスワードマネージャー >> password.txt
+   gpg --encrypt --recipient $pass_email password.txt
+   #暗号化する前のファイルは削除
+   rm password.txt
+fi
+
 #Exitが入力されるまで処理が続くためにwhile構文を挿入
 while [ $number -eq 1 ];
 
