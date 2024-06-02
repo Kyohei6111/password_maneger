@@ -1,25 +1,59 @@
 #!/bin/zsh
 
 #-----example@email.comをGPGのキーに紐づいているメールアドレスに置き換えてくださいgit----------
-pass_email=danishi1121@gmail.com
+pass_email=example@email.com
 
 echo "パスワードマネージャーへようこそ！"
 
 number=1
 
-#password.pngがない時はpassword.pngを作成
+#対象のディレクトリにpassword.txt、password.txt.gpgの有無を確認、password.txt.gpgだけの状態にする
 passwoed_gpg_file_nmu=$(ls | grep -x password.txt.gpg | wc -l)
 passwoed_file_nmu=$(ls | grep -x password.txt | wc -l)
+#password.png、password.txtどちらもない場合はpassword.txtを作成して暗号化
 if [ $passwoed_gpg_file_nmu -eq 0 ] && [ $passwoed_file_nmu -eq 0 ]; then
    echo パスワードマネージャー >> password.txt
    gpg --encrypt --recipient $pass_email password.txt
    #暗号化する前のファイルは削除
    rm password.txt
+#password.txtのみの場合は暗号化
 elif [ $passwoed_gpg_file_nmu -eq 0 ] && [ $passwoed_file_nmu -ne 0 ]; then
    #password.txtを暗号化
    gpg --encrypt --recipient $pass_email password.txt
    #暗号化する前のファイルは削除
    rm password.txt
+#どちらもある場合
+elif [ $passwoed_gpg_file_nmu -ne 0 ] && [ $passwoed_file_nmu -ne 0 ]; then
+#どちらを残すかを選ぶ
+   #変数を初期化
+   keep_file=loop
+   while [ $keep_file = "loop" ];
+
+   do
+      echo password.txtとpassword.txt.gpgが存在します。
+      echo 残す方のファイルを入力してください。（.txt/.txt.gpg/Exit）
+      read keep_file
+      case $keep_file in
+         .txt)
+            rm password.txt.gpg
+            #残したpassword.txtを暗号化
+            gpg --encrypt --recipient $pass_email password.txt
+            #暗号化する前のファイルは削除
+            rm password.txt
+         ;;
+         .txt.gpg)
+            rm password.txt
+         ;;
+         Exit)
+            echo "thank you!!"
+            exit
+         ;;
+         #その他の値が入力された場合はkeep_fileにloopを代入しループを続ける
+         *)
+            keep_file="loop"
+            echo 入力が間違っています。
+      esac
+   done
 fi
 
 #Exitが入力されるまで処理が続くためにwhile構文を挿入
